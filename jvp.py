@@ -27,10 +27,9 @@ hiragana_array = np.array([
     ['ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ']
 ])
 
-hiragana_table = pd.DataFrame(hiragana_array, index=['a', 'k', 's', 't', 'n', \
-                                                     'h', 'm', 'y', 'r', 'w', \
-                                                     'g', 'z', 'd', 'b', 'p'],
-                              columns=['a', 'i', 'u', 'e', 'o'])
+hiragana_table = pd.DataFrame(hiragana_array, 
+                index=['a', 'k', 's', 't', 'n', 'h', 'm', 'y', 'r', 'w', 'g', 'z', 'd', 'b', 'p'], 
+                columns=['a', 'i', 'u', 'e', 'o'])
 
 speacial_v1 = ('帰る', '滑る', '入る', '切る', '知る', '要る', '走る', '減る')
 
@@ -72,6 +71,7 @@ class Hiragana(object):
                     self.consonant = index
         if self.consonant == None:
             raise ValueError('Something wrong')
+            #self.consonant = 'a'
 
     def change_vowel(self, vowel):
         self.get_consonant()
@@ -168,27 +168,27 @@ class Verb(object):
         Turn a verb into ます形 (masu type)
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('i')
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'ます'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'ます'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'ます'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'ます'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'ます'
+            hira_answer = self.verb_base[0:-1] + 'ます'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'ます'
+                kanji_answer = self.verb_kanji[0:-1] + 'ます'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
-            last_second_hira = self.verb_base[-6:-3]
+            last_second_hira = self.verb_base[-2:-1]
             hira = Hiragana(last_second_hira)
             hira.change_vowel('i')
             hira_answer = hira.hiragana + 'ます'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3]+ 'ます'
+                kanji_answer = self.verb_kanji[0:-1]+ 'ます'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
 
@@ -198,32 +198,32 @@ class Verb(object):
         '''
         if self.verb_type == 1:
             append_item = ''
-            if self.verb_base[-3:] in ('う', 'つ', 'る'):
+            if self.verb_base[-1:] in ('う', 'つ', 'る'):
                 append_item = 'って'
-            if self.verb_base[-3:] in ('ぶ', 'む', 'ぬ'):
+            if self.verb_base[-1:] in ('ぶ', 'む', 'ぬ'):
                 append_item = 'んで'
-            if self.verb_base[-3:] == 'く':
+            if self.verb_base[-1:] == 'く':
                 append_item = 'いて'
-            if self.verb_base[-3:] == 'ぐ':
+            if self.verb_base[-1:] == 'ぐ':
                 append_item = 'いで'
-            if self.verb_base[-3:] == 'す':
+            if self.verb_base[-1:] == 'す':
                 append_item = 'して'
 
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + append_item
+                kanji_answer = self.verb_kanji[0:-1] + append_item
                 if self.verb_kanji == '行く':
                     kanji_answer = '行って'
                 self.right_answer.append(kanji_answer)
-            hira_answer = self.verb_base[0:-3] + append_item
+            hira_answer = self.verb_base[0:-1] + append_item
             if self.verb_base == 'いく':
                 hira_answer = 'いって'
             self.right_answer.append(hira_answer)
 
         if self.verb_type == 2:
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'て'
+                kanji_answer = self.verb_kanji[0:-1] + 'て'
                 self.right_answer.append(kanji_answer)
-            hira_answer = self.verb_base[0:-3] + 'て'
+            hira_answer = self.verb_base[0:-1] + 'て'
             self.right_answer.append(hira_answer)
 
         if self.verb_type == 3:
@@ -239,32 +239,32 @@ class Verb(object):
         '''
         if self.verb_type == 1:
             append_item = ''
-            if self.verb_base[-3:] in ('う', 'つ', 'る'):
+            if self.verb_base[-1:] in ('う', 'つ', 'る'):
                 append_item = 'った'
-            if self.verb_base[-3:] in ('ぶ', 'む', 'ぬ'):
+            if self.verb_base[-1:] in ('ぶ', 'む', 'ぬ'):
                 append_item = 'んだ'
-            if self.verb_base[-3:] == 'く':
+            if self.verb_base[-1:] == 'く':
                 append_item = 'いた'
-            if self.verb_base[-3:] == 'ぐ':
+            if self.verb_base[-1:] == 'ぐ':
                 append_item = 'いだ'
-            if self.verb_base[-3:] == 'す':
+            if self.verb_base[-1:] == 'す':
                 append_item = 'した'
 
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + append_item
+                kanji_answer = self.verb_kanji[0:-1] + append_item
                 if self.verb_kanji == '行く':
                     kanji_answer = '行った'
                 self.right_answer.append(kanji_answer)
-            hira_answer = self.verb_base[0:-3] + append_item
+            hira_answer = self.verb_base[0:-1] + append_item
             if self.verb_base == 'いく':
                 hira_answer = 'いった'
             self.right_answer.append(hira_answer)
 
         if self.verb_type == 2:
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'た'
+                kanji_answer = self.verb_kanji[0:-1] + 'た'
                 self.right_answer.append(kanji_answer)
-            hira_answer = self.verb_base[0:-3] + 'た'
+            hira_answer = self.verb_base[0:-1] + 'た'
             self.right_answer.append(hira_answer)
 
         if self.verb_type == 3:
@@ -279,23 +279,23 @@ class Verb(object):
         Turn a verb into ない形 (nai type)
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('a')
             if hira.hiragana == 'あ':
                 hira.hiragana = 'わ'
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'ない'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'ない'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'ない'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'ない'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
             # special verb: ある
             if self.verb_base == 'ある':
                 self.right_answer = ['ない']
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'ない'
+            hira_answer = self.verb_base[0:-1] + 'ない'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'ない'
+                kanji_answer = self.verb_kanji[0:-1] + 'ない'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -310,18 +310,18 @@ class Verb(object):
         Turn a verb into 命令形
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('e')
-            hira_answer = self.verb_base[0:-3] + hira.hiragana
+            hira_answer = self.verb_base[0:-1] + hira.hiragana
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'ろ'
+            hira_answer = self.verb_base[0:-1] + 'ろ'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'ろ'
+                kanji_answer = self.verb_kanji[0:-1] + 'ろ'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -336,18 +336,18 @@ class Verb(object):
         Turn a verb into 意志形
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('o')
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'う'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'う'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'う'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'う'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'よう'
+            hira_answer = self.verb_base[0:-1] + 'よう'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'よう'
+                kanji_answer = self.verb_kanji[0:-1] + 'よう'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -362,18 +362,18 @@ class Verb(object):
         Turn a verb into 可能态
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('e')
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'る'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'る'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'る'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'る'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'られる'
+            hira_answer = self.verb_base[0:-1] + 'られる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'られる'
+                kanji_answer = self.verb_kanji[0:-1] + 'られる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -388,20 +388,20 @@ class Verb(object):
         Turn a verb into 使役态
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('a')
             if hira.hiragana == 'あ':
                 hira.hiragana = 'わ'
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'せる'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'せる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'せる'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'せる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'させる'
+            hira_answer = self.verb_base[0:-1] + 'させる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'させる'
+                kanji_answer = self.verb_kanji[0:-1] + 'させる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -416,20 +416,20 @@ class Verb(object):
         Turn a verb into 被动态
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('a')
             if hira.hiragana == 'あ':
                 hira.hiragana = 'わ'
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'れる'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'れる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'れる'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'れる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'られる'
+            hira_answer = self.verb_base[0:-1] + 'られる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'られる'
+                kanji_answer = self.verb_kanji[0:-1] + 'られる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -444,20 +444,20 @@ class Verb(object):
         Turn a verb into 使役被动态
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('a')
             if hira.hiragana == 'あ':
                 hira.hiragana = 'わ'
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'される'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'される'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'される'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'される'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'させられる'
+            hira_answer = self.verb_base[0:-1] + 'させられる'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'させられる'
+                kanji_answer = self.verb_kanji[0:-1] + 'させられる'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -472,18 +472,18 @@ class Verb(object):
         Turn a verb into 假定形
         '''
         if self.verb_type == 1:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             hira = Hiragana(last_hira)
             hira.change_vowel('e')
-            hira_answer = self.verb_base[0:-3] + hira.hiragana + 'ば'
+            hira_answer = self.verb_base[0:-1] + hira.hiragana + 'ば'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + hira.hiragana + 'ば'
+                kanji_answer = self.verb_kanji[0:-1] + hira.hiragana + 'ば'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 2:
-            hira_answer = self.verb_base[0:-3] + 'れば'
+            hira_answer = self.verb_base[0:-1] + 'れば'
             if self.has_kanji:
-                kanji_answer = self.verb_kanji[0:-3] + 'れば'
+                kanji_answer = self.verb_kanji[0:-1] + 'れば'
                 self.right_answer.append(kanji_answer)
             self.right_answer.append(hira_answer)
         if self.verb_type == 3:
@@ -503,11 +503,11 @@ class Verb(object):
         if self.verb_base in ('する', 'くる'):
             self.verb_type = 3
         else:
-            last_hira = self.verb_base[-3:]
+            last_hira = self.verb_base[-1:]
             if last_hira != 'る':
                 self.verb_type = 1
             else:
-                last_2nd_hira = self.verb_base[-6:-3]
+                last_2nd_hira = self.verb_base[-2:-1]
                 hira = Hiragana(last_2nd_hira)
                 hira.get_vowel()
                 if hira.vowel in ('う', 'あ', 'お' ):
@@ -667,7 +667,7 @@ class Practice(object):
         '''
         self.verbs_base_avail = []
         self.verbs_kanji_avail = []
-        with open('Japanese_verb_base.jvp') as f:
+        with open('Japanese_verb_base.jvp', encoding='utf-8') as f:
             for line in f:
                 if line.strip():
                     line = line.strip()
@@ -680,7 +680,7 @@ class Practice(object):
         Read the form lib
         '''
         self.verbs_form_avail = []
-        with open('Japanese_verb_form.jvp') as f:
+        with open('Japanese_verb_form.jvp', encoding='utf-8',errors='ignore') as f:
             for line in f:
                 if line.strip():
                     verb_form = line.strip()
@@ -849,7 +849,7 @@ def get_input(info):
     if py3:
         response = input(info)
     else:
-        response = raw_input(info)
+        response = input(info)
     return response
 
 def biased_verb_sample(p):
